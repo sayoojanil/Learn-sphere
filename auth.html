@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnHub - Authentication</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #5624d0;
+            --secondary: #f5f5f5;
+            --accent: #a435f0;
+            --dark: #1c1d1f;
+            --light: #ffffff;
+            --success: #3fb950;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f7f9fa 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            max-width: 450px;
+            width: 100%;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            margin: 1rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(86, 36, 208, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .toggle-link {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .toggle-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .password-strength {
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak { background-color: #dc3545; width: 33%; }
+        .strength-medium { background-color: #ffc107; width: 66%; }
+        .strength-strong { background-color: var(--success); width: 100%; }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        @media (max-width: 576px) {
+            .auth-container {
+                margin: 0.5rem;
+                padding: 1.5rem;
+            }
+
+            .auth-header .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container" id="authContainer">
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form">
+            <div class="auth-header">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-journal-bookmark-fill me-2"></i>LearnHub
+                </a>
+                <h3 class="fw-bold mt-2">Welcome Back</h3>
+                <p class="text-muted">Sign in to continue your learning journey</p>
+            </div>
+
+            <div class="form-group">
+                <label for="loginEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email">
+                <div id="loginEmailError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password">
+                <i class="bi bi-eye-slash toggle-password" id="toggleLoginPassword"></i>
+                <div id="loginPasswordError" class="error-message"></div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <a href="#" class="toggle-link">Forgot password?</a>
+            </div>
+
+            <button class="btn btn-primary w-100 mb-3" id="loginButton">Sign In</button>
+            <p class="text-center">Don't have an account? <span class="toggle-link" id="showSignup">Sign up</span></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form d-none">
+            <div class="auth-header">
+                <a class="navbar-brand" href="#">
+                    <i class="bi bi-journal-bookmark-fill me-2"></i>LearnHub
+                </a>
+                <h3 class="fw-bold mt-2">Join LearnHub</h3>
+                <p class="text-muted">Create an account to start learning</p>
+            </div>
+
+            <div class="form-group">
+                <label for="signupName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="signupName" placeholder="Enter your full name">
+                <div id="signupNameError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email">
+                <div id="signupEmailError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="signupPassword" placeholder="Create a password">
+                <i class="bi bi-eye-slash toggle-password" id="toggleSignupPassword"></i>
+                <div id="signupPasswordError" class="error-message"></div>
+                <div class="password-strength" id="passwordStrength"></div>
+                <div id="passwordStrengthText" class="text-muted small mt-1"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password">
+                <i class="bi bi-eye-slash toggle-password" id="toggleConfirmPassword"></i>
+                <div id="confirmPasswordError" class="error-message"></div>
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="termsAgree">
+                <label class="form-check-label" for="termsAgree">
+                    I agree to the <a href="#" class="toggle-link">Terms & Conditions</a>
+                </label>
+            </div>
+
+            <button class="btn btn-primary w-100 mb-3" id="signupButton">Sign Up</button>
+            <p class="text-center">Already have an account? <span class="toggle-link" id="showLogin">Sign in</span></p>
+        </div>
+
+        <div id="authMessage" class="success-message text-center mt-3"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form toggle functionality
+        function toggleForms(showForm) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            loginForm.classList.toggle('d-none', showForm === 'signup');
+            signupForm.classList.toggle('d-none', showForm === 'login');
+            clearForms();
+            clearMessages();
+        }
+
+        document.getElementById('showSignup').addEventListener('click', () => toggleForms('signup'));
+        document.getElementById('showLogin').addEventListener('click', () => toggleForms('login'));
+
+        // Password visibility toggle
+        function togglePasswordVisibility(toggleBtn, inputField) {
+            const isPassword = inputField.type === 'password';
+            inputField.type = isPassword ? 'text' : 'password';
+            toggleBtn.classList.toggle('bi-eye', isPassword);
+            toggleBtn.classList.toggle('bi-eye-slash', !isPassword);
+        }
+
+        document.getElementById('toggleLoginPassword').addEventListener('click', () => 
+            togglePasswordVisibility(document.getElementById('toggleLoginPassword'), document.getElementById('loginPassword')));
+        document.getElementById('toggleSignupPassword').addEventListener('click', () => 
+            togglePasswordVisibility(document.getElementById('toggleSignupPassword'), document.getElementById('signupPassword')));
+        document.getElementById('toggleConfirmPassword').addEventListener('click', () => 
+            togglePasswordVisibility(document.getElementById('toggleConfirmPassword'), document.getElementById('confirmPassword')));
+
+        // Form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                lowercase: /[a-z]/.test(password),
+                number: /[0-9]/.test(password),
+                special: /[!@#$%^&*]/.test(password)
+            };
+        }
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthBar = document.getElementById('passwordStrength');
+            const strengthText = document.getElementById('passwordStrengthText');
+            const validation = validatePassword(password);
+            const validCount = Object.values(validation).filter(Boolean).length;
+
+            strengthBar.className = 'password-strength';
+            strengthText.textContent = '';
+
+            if (password.length === 0) return;
+
+            if (validCount <= 2) {
+                strengthBar.classList.add('strength-weak');
+                strengthText.textContent = 'Weak password';
+            } else if (validCount <= 4) {
+                strengthBar.classList.add('strength-medium');
+                strengthText.textContent = 'Medium password';
+            } else {
+                strengthBar.classList.add('strength-strong');
+                strengthText.textContent = 'Strong password';
+            }
+        }
+
+        document.getElementById('signupPassword').addEventListener('input', (e) => 
+            checkPasswordStrength(e.target.value));
+
+        // Clear forms
+        function clearForms() {
+            ['loginEmail', 'loginPassword', 'signupName', 'signupEmail', 'signupPassword', 'confirmPassword']
+                .forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) input.value = '';
+                });
+            document.getElementById('rememberMe').checked = false;
+            document.getElementById('termsAgree').checked = false;
+            document.getElementById('passwordStrength').className = 'password-strength';
+            document.getElementById('passwordStrengthText').textContent = '';
+            clearMessages();
+        }
+
+        // Clear error/success messages
+        function clearMessages() {
+            ['loginEmailError', 'loginPasswordError', 'signupNameError', 'signupEmailError', 
+             'signupPasswordError', 'confirmPasswordError', 'authMessage'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                    element.textContent = '';
+                }
+            });
+        }
+
+        // Show error message
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const element = document.getElementById('authMessage');
+            element.textContent = message;
+            element.className = 'success-message text-center mt-3';
+            element.style.display = 'block';
+        }
+
+        // Login handler
+        document.getElementById('loginButton').addEventListener('click', () => {
+            clearMessages();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            let valid = true;
+
+            if (!email) {
+                showError('loginEmailError', 'Email is required');
+                valid = false;
+            } else if (!validateEmail(email)) {
+                showError('loginEmailError', 'Invalid email format');
+                valid = false;
+            }
+
+            if (!password) {
+                showError('loginPasswordError', 'Password is required');
+                valid = false;
+            }
+
+            if (valid) {
+                // Demo: Check credentials in localStorage
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                if (users[email] && users[email].password === password) {
+                    showSuccess('Login successful! Redirecting...');
+                    if (rememberMe) {
+                        localStorage.setItem('currentUser', email);
+                    }
+                    setTimeout(() => {
+                        window.location.href = '#dashboard'; // Redirect to main page dashboard
+                    }, 1500);
+                } else {
+                    showError('loginEmailError', 'Invalid email or password');
+                }
+            }
+        });
+
+        // Signup handler
+        document.getElementById('signupButton').addEventListener('click', () => {
+            clearMessages();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const termsAgreed = document.getElementById('termsAgree').checked;
+
+            let valid = true;
+
+            if (!name) {
+                showError('signupNameError', 'Full name is required');
+                valid = false;
+            }
+
+            if (!email) {
+                showError('signupEmailError', 'Email is required');
+                valid = false;
+            } else if (!validateEmail(email)) {
+                showError('signupEmailError', 'Invalid email format');
+                valid = false;
+            }
+
+            const passwordValidation = validatePassword(password);
+            if (!password) {
+                showError('signupPasswordError', 'Password is required');
+                valid = false;
+            } else if (!Object.values(passwordValidation).every(Boolean)) {
+                showError('signupPasswordError', 'Password must be at least 8 characters, include uppercase, lowercase, number, and special character');
+                valid = false;
+            }
+
+            if (!confirmPassword) {
+                showError('confirmPasswordError', 'Please confirm your password');
+                valid = false;
+            } else if (password !== confirmPassword) {
+                showError('confirmPasswordError', 'Passwords do not match');
+                valid = false;
+            }
+
+            if (!termsAgreed) {
+                showError('signupEmailError', 'You must agree to the terms');
+                valid = false;
+            }
+
+            if (valid) {
+                // Demo: Store user in localStorage
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                if (users[email]) {
+                    showError('signupEmailError', 'Email already registered');
+                    return;
+                }
+
+                users[email] = { name, password };
+                localStorage.setItem('users', JSON.stringify(users));
+                showSuccess('Account created successfully! Redirecting to login...');
+                setTimeout(() => toggleForms('login'), 1500);
+            }
+        });
+
+        // Auto-fill from localStorage if "remember me" was checked
+        window.addEventListener('load', () => {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                document.getElementById('loginEmail').value = currentUser;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        // Keyboard accessibility
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const form = input.closest('.auth-form');
+                    const submitButton = form.querySelector('button');
+                    submitButton.click();
+                }
+            });
+        });
+
+        // Form animation
+        document.querySelectorAll('.auth-form').forEach(form => {
+            form.addEventListener('transitionend', () => {
+                form.style.opacity = form.classList.contains('d-none') ? 0 : 1;
+            });
+        });
+    </script>
+</body>
+</html>

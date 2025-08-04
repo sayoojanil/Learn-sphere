@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnSphere - Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="./sayooj logo/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./sayooj logo/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./sayooj logo/android-chrome-512x512.png">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --text: #495057;
+            --border: #e9ecef;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: #f5f7ff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        header {
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            transition: var(--transition);
+        }
+
+        .nav-links li {
+            margin: 0 12px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-buttons .btn {
+            margin-left: 12px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .user-profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 12px;
+        }
+
+        .user-profile-icon:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .user-name-dropdown {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            min-width: 140px;
+            z-index: 1000;
+        }
+
+        .user-name-dropdown.active {
+            display: block;
+        }
+
+        .user-name-dropdown span {
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .courses-section {
+            padding: 120px 0 80px;
+            background: white;
+        }
+
+        .courses-header {
+            text-align: center;
+            margin-bottom: 40px;
+            
+            
+        }
+
+        .courses-header h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .courses-header p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--text);
+             font-family:Verdana, Geneva, Tahoma, sans-serif ;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 350px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            outline: none;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 10px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23495057'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 16px;
+            min-width: 160px;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            outline: none;
+        }
+
+        .filter-select:hover {
+            border-color: var(--primary);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: rgb(255, 255, 255);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .course-image {
+            height: 160px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .course-image i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-category {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .course-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .course-description {
+            color: var(--text);
+            margin-bottom: 16px;
+            min-height: 60px;
+            font-size: 14px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+        }
+
+        .instructor-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        .course-rating {
+            display: flex;
+            padding-left: 20%;
+            color: #ffc107;
+        }
+
+        .course-rating span {
+            color: var(--text);
+            margin-left: 4px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: rgb(255, 255, 255);
+            border-radius: 2px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: modalAppear 0.4s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .modal-header p {
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 12px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 6px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .modal-footer p {
+            margin-top: 12px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .modal-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .modal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff031c;
+            font-size: 14px;
+            margin-top: 16px;
+            text-align: center;
+            font-weight: 600;
+            background: rgba(255, 3, 28, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 3, 28, 0.2);
+        }
+
+        .loading-message {
+            color: rgb(255, 59, 59);
+            font-size: 16px;
+            text-align: center;
+            margin: 16px 0;
+            display: none;
+            font-weight: 600;
+        }
+
+        .loading-message.active {
+            display: block;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+            }
+
+            .auth-buttons {
+                margin-top: 10px;
+            }
+
+            .auth-buttons .btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .user-profile-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .user-name-dropdown {
+                top: 40px;
+                min-width: 120px;
+            }
+
+            .courses-section {
+                padding: 100px 0 60px;
+            }
+
+            .courses-header h1 {
+                font-size: 28px;
+            }
+
+            .courses-header p {
+                font-size: 14px;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px;
+            }
+
+            .search-box {
+                max-width: 100%;
+                margin-bottom: 16px;
+            }
+
+            .filter-options {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .filter-select {
+                width: 100%;
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .course-image {
+                height: 140px;
+                font-size: 40px;
+            }
+
+            .course-content {
+                padding: 16px;
+            }
+
+            .course-title {
+                font-size: 14px;
+            }
+
+            .course-description {
+                font-size: 12px;
+                min-height: 50px;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .course-rating {
+                padding-left: 0;
+            }
+
+            .modal-content {
+                padding: 16px;
+                max-width: 90%;
+            }
+
+            .modal-header h2 {
+                font-size: 20px;
+            }
+
+            .modal-header p {
+                font-size: 12px;
+            }
+
+            .form-group input {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 8px 20px;
+                font-size: 12px;
+                border-radius: 5px;
+            }
+
+            .modal-footer p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 20px;
+                padding-left: 40px;
+            }
+
+            .hamburger {
+                font-size: 20px;
+                position: fixed;
+            }
+
+            .nav-links {
+                top: 50px;
+                padding: 16px;
+            }
+
+            .courses-header h1 {
+                font-size: 24px;
+            }
+
+            .courses-header p {
+                font-size: 12px;
+            }
+
+            .filter-bar {
+                padding: 12px;
+            }
+
+            .search-box input {
+                padding: 10px 12px 10px 36px;
+                font-size: 12px;
+            }
+
+            .search-box i {
+                left: 10px;
+                font-size: 14px;
+            }
+
+            .filter-select {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .course-image {
+                height: 120px;
+                font-size: 36px;
+            }
+
+            .course-content {
+                padding: 12px;
+            }
+
+            .course-title {
+                font-size: 13px;
+            }
+
+            .course-description {
+                font-size: 11px;
+            }
+
+            .course-category {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+
+            .course-rating span {
+                font-size: 12px;
+            }
+
+            .modal-content {
+                padding: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .close-btn {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo" id="home-link">
+                    <i class="fas fa-graduation-cap"></i>
+                    LearnSphere
+                </a>
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="course.html" class="nav-link">Courses</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="#" class="btn btn-outline" id="login-btn">Login</a>
+                    <a href="#" class="btn" id="signup-btn">Sign Up</a>
+                    <div class="user-profile" id="user-profile" style="display: none;">
+                        <div class="user-profile-icon" id="user-profile-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-name-dropdown" id="user-name-dropdown">
+                            <span id="user-name"></span>
+                        </div>
+                        <a href="#" class="btn btn-outline" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="courses-section">
+        <div class="container">
+            <div class="courses-header">
+                <h1>Explore Our Courses</h1>
+                <p>Discover a wide range of courses taught by industry experts to help you achieve your learning goals.</p>
+            </div>
+            <div class="filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search courses...">
+                </div>
+                <div class="filter-options">
+                    <select class="filter-select" id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="coding">Coding</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Business">Business</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Mobile Development">Mobile Development</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                    </select>
+                    <select class="filter-select" id="difficulty-filter">
+                        <option value="all">All Difficulties</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+            <div class="loading-message" id="courses-loading">Loading courses...</div>
+            <div class="error-message" id="fetch-error" style="display: none;">Failed to fetch courses. Please try again later.</div>
+            <div class="error-message" id="no-courses-error" style="display: none;">No courses found for the selected category or filters.</div>
+            <div class="courses-grid" id="courses-grid">
+                <div class="course-card" data-category="coding" data-difficulty="medium">
+                    <div class="course-image">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">Coding</span>
+                        <h3 class="course-title">Sample Course</h3>
+                        <span><strong>Sample Provider</strong></span><br>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <strong><h2><span>₹1000</span></strong></h2>
+                            </div>
+                            <div class="course-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <p>Join our learning community today</p>
+            </div>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 16px;" id="signup-submit">Sign Up</button>
+                <p class="loading-message" id="signup-loading">Processing signup...</p>
+                <p class="error-message" id="signup-error"></p>
+            </form>
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to continue your learning journey</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; padding: 12px; font-size: 16px;" id="login-submit">Login</button>
+                <p class="loading-message" id="login-loading">Processing login...</p>
+                <p class="error-message" id="login-error"></p>
+            </form>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://127.0.0.1:3000/';
+        const API_ENDPOINTS = {
+            signup: '/signup',
+            login: '/loginWithEmail',
+            courses: '/courses'
+        };
+
+        // DOM Elements
+        const signupBtn = document.getElementById('signup-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const signupModal = document.getElementById('signup-modal');
+        const loginModal = document.getElementById('login-modal');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const showLogin = document.getElementById('show-login');
+        const showSignup = document.getElementById('show-signup');
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        const signupError = document.getElementById('signup-error');
+        const loginError = document.getElementById('login-error');
+        const signupLoading = document.getElementById('signup-loading');
+        const loginLoading = document.getElementById('login-loading');
+        const coursesLoading = document.getElementById('courses-loading');
+        const authButtons = document.getElementById('auth-buttons');
+        const userProfile = document.getElementById('user-profile');
+        const userNameDisplay = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userProfileIcon = document.getElementById('user-profile-icon');
+        const userNameDropdown = document.getElementById('user-name-dropdown');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        const coursesGrid = document.getElementById('courses-grid');
+        const signupSubmit = document.getElementById('signup-submit');
+        const loginSubmit = document.getElementById('login-submit');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        const fetchError = document.getElementById('fetch-error');
+        const noCoursesError = document.getElementById('no-courses-error');
+
+        // Axios instance
+        const api = axios.create({
+            baseURL: API_BASE_URL,
+            timeout: 5000,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Function to update auth UI
+        function updateAuthUI() {
+            const token = localStorage.getItem('token');
+            const userName = localStorage.getItem('userName');
+
+            if (token && userName) {
+                signupBtn.style.display = 'none';
+                loginBtn.style.display = 'none';
+                userProfile.style.display = 'flex';
+                userNameDisplay.textContent = userName || 'User';
+            } else {
+                signupBtn.style.display = 'inline-block';
+                loginBtn.style.display = 'inline-block';
+                userProfile.style.display = 'none';
+                userNameDisplay.textContent = '';
+            }
+        }
+
+        // Function to toggle hamburger menu
+        function toggleMenu() {
+            navLinks.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        }
+
+        // Function to fetch courses from API
+        async function fetchCourses() {
+            try {
+                coursesLoading.classList.add('active');
+                coursesGrid.style.display = 'none';
+                fetchError.style.display = 'none';
+                noCoursesError.style.display = 'none';
+                const response = await api.get(API_ENDPOINTS.courses);
+                console.log('Fetched Courses:', response.data);
+                return response.data;
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                fetchError.style.display = 'block';
+                return [];
+            } finally {
+                coursesLoading.classList.remove('active');
+                coursesGrid.style.display = 'grid';
+            }
+        }
+
+        // Function to render courses
+        function renderCourses(courses) {
+            coursesGrid.innerHTML = '';
+            fetchError.style.display = 'none';
+            noCoursesError.style.display = courses.length === 0 ? 'block' : 'none';
+            if (courses.length === 0) {
+                return;
+            }
+            courses.forEach((course) => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.setAttribute('data-category', course.category);
+                courseCard.setAttribute('data-difficulty', course.difficulty);
+                courseCard.innerHTML = `
+                    <div class="course-image">
+                        ${course.image ? `<img src="${course.image}" alt="${course.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+                        <i class="fas fa-${getCourseIcon(course.category)}" style="${course.image ? 'display:none' : ''}"></i>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">${course.category}</span>
+                        <h3 class="course-title">${course.title}</h3>
+                        <span><strong>${course.provided_by}</strong></span><br>
+                        <div class="course-meta">
+                            <div class="course-instructor">
+                                <strong><h2><span>₹${course.amount}</span></strong></h2>
+                            </div>
+                            <div class="course-rating">
+                                ${generateStars(course.rating)}
+                                <span>${course.rating}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                courseCard.addEventListener('click', () => {
+                    localStorage.setItem('selectedCourse', JSON.stringify(course));
+                    window.location.href = 'course-details.html';
+                });
+                coursesGrid.appendChild(courseCard);
+            });
+        }
+
+        // Function to get course icon
+        function getCourseIcon(category) {
+            const icons = {
+                'coding': 'js',
+                'Web Development': 'js',
+                'Data Science': 'database',
+                'Design': 'paint-brush',
+                'Mobile Development': 'mobile-alt',
+                'Business': 'chart-line',
+                'Marketing': 'bullhorn',
+                'Cloud Computing': 'cloud'
+            };
+            return icons[category] || 'book';
+        }
+
+        // Function to generate star rating
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // Search and filter function
+        async function filterCourses() {
+            const searchText = searchInput.value.toLowerCase();
+            console.log('Search Text:', searchText);
+            const selectedCategory = categoryFilter.value;
+            const selectedDifficulty = difficultyFilter.value;
+
+            let filter = {};
+            if (searchText) {
+                filter.where = {
+                    or: [
+                        { title: { like: searchText, options: 'i' } },
+                        { description: { like: searchText, options: 'i' } },
+                        { category: { like: searchText, options: 'i' } }
+                    ]
+                };
+            }
+            if (selectedCategory !== 'all') {
+                filter.where = { ...filter.where, category: selectedCategory };
+            }
+            console.log('Selected Category:', selectedCategory);
+
+            if (selectedDifficulty !== 'all') {
+                filter.where = { ...filter.where, difficulty: selectedDifficulty };
+            }
+
+            try {
+                coursesLoading.classList.add('active');
+                coursesGrid.style.display = 'none';
+                fetchError.style.display = 'none';
+                noCoursesError.style.display = 'none';
+                const response = await api.get(API_ENDPOINTS.courses, { params: { filter: JSON.stringify(filter) } });
+                renderCourses(response.data);
+            } catch (error) {
+                console.error('Error filtering courses:', error);
+                fetchError.style.display = 'block';
+                noCoursesError.style.display = 'none';
+                coursesGrid.innerHTML = '';
+            } finally {
+                coursesLoading.classList.remove('active');
+                coursesGrid.style.display = 'grid';
+            }
+        }
+
+        // Event listeners for search and filters
+        searchInput.addEventListener('input', filterCourses);
+        categoryFilter.addEventListener('change', filterCourses);
+        difficultyFilter.addEventListener('change', filterCourses);
+
+        // Hamburger menu event listener
+        hamburger.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking a nav link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.querySelector('i').classList.remove('fa-times');
+                hamburger.querySelector('i').classList.add('fa-bars');
+            });
+        });
+
+        // Initial render of courses
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            const courses = await fetchCourses();
+            renderCourses(courses);
+        });
+
+        // Event listeners
+        userProfileIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userNameDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!userProfileIcon.contains(e.target) && !userNameDropdown.contains(e.target)) {
+                userNameDropdown.classList.remove('active');
+            }
+        });
+
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'flex';
+            signupError.style.display = 'none';
+            signupLoading.style.display = 'none';
+        });
+
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+            loginError.style.display = 'none';
+            loginLoading.style.display = 'none';
+        });
+
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                signupModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                signupError.style.display = 'none';
+                loginError.style.display = 'none';
+                signupLoading.style.display = 'none';
+                loginLoading.style.display = 'none';
+            });
+        });
+
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+            signupError.style.display = 'none';
+            loginError.style.display = 'none';
+            signupLoading.style.display = 'none';
+            loginLoading.style.display = 'none';
+        });
+
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'flex';
+            signupError.style.display = 'none';
+            loginError.style.display = 'none';
+            signupLoading.style.display = 'none';
+            loginLoading.style.display = 'none';
+        });
+
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('rememberMe');
+            updateAuthUI();
+            alert('Logged out successfully!');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === signupModal) {
+                signupModal.style.display = 'none';
+                signupError.style.display = 'none';
+                signupLoading.style.display = 'none';
+            }
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+                loginError.style.display = 'none';
+                loginLoading.style.display = 'none';
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            signupError.style.display = 'none';
+            signupLoading.style.display = 'block';
+            signupSubmit.disabled = true;
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
+
+            if (password !== confirmPassword) {
+                signupError.textContent = 'Passwords do not match';
+                signupError.style.display = 'block';
+                signupLoading.style.display = 'none';
+                signupSubmit.disabled = false;
+                return;
+            }
+
+            try {
+                const response = await api.post(API_ENDPOINTS.signup, {
+                    name,
+                    email,
+                    password
+                });
+
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('userName', name);
+                alert('Account created successfully! Welcome to LearnSphere.');
+                signupModal.style.display = 'none';
+                signupForm.reset();
+                updateAuthUI();
+            } catch (error) {
+                signupError.textContent = error.response?.data?.message || 'An error occurred during signup';
+                signupError.style.display = 'block';
+            } finally {
+                signupLoading.style.display = 'none';
+                signupSubmit.disabled = false;
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.style.display = 'none';
+            loginLoading.style.display = 'block';
+            loginSubmit.disabled = true;
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const remember = document.getElementById('remember').checked;
+
+            try {
+                const response = await api.post(API_ENDPOINTS.login, {
+                    email,
+                    password
+                });
+
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('userName', response.data.name || response.data.userName || 'User');
+
+                if (remember) {
+                    localStorage.setItem('rememberMe', 'true');
+                } else {
+                    localStorage.removeItem('rememberMe');
+                }
+
+                alert('Login successful! Welcome back.');
+                loginModal.style.display = 'none';
+                loginForm.reset();
+                updateAuthUI();
+            } catch (error) {
+                loginError.textContent = error.response?.data?.message || 'Invalid email or password';
+                loginError.style.display = 'block';
+            } finally {
+                loginLoading.style.display = 'none';
+                loginSubmit.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
