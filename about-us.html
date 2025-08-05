@@ -6,11 +6,9 @@
     <title>LearnSphere - About Us</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-
     <link rel="apple-touch-icon" sizes="180x180" href="./sayooj logo/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="./sayooj logo/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="16x16" href="./sayooj logo/android-chrome-512x512.png">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="./sayooj logo/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./sayooj logo/android-chrome-512x512.png">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
@@ -87,7 +85,7 @@
         }
 
         header {
-            padding: 20px 0;
+            padding: 15px 0;
             position: fixed;
             top: 0;
             left: 0;
@@ -101,36 +99,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 800;
             color: var(--primary);
             text-decoration: none;
             display: flex;
             align-items: center;
+            z-index: 101;
         }
 
         .logo i {
-            margin-right: 10px;
+            margin-right: 8px;
             color: var(--accent);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+            z-index: 101;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links li {
-            margin: 0 15px;
+            margin: 0 12px;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--dark);
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: var(--transition);
         }
 
@@ -140,16 +149,15 @@
 
         .auth-buttons {
             display: flex;
-            border-radius: 100px;
             align-items: center;
-           
+            gap: 10px;
         }
 
         .auth-buttons .btn {
-            margin-left: 15px;
-            padding: 8px 20px;
-            font-size: 15px;
-             border-radius:20px;
+            margin-left: 10px;
+            padding: 8px 18px;
+            font-size: 14px;
+            border-radius: 20px;
         }
 
         .user-profile {
@@ -159,18 +167,18 @@
         }
 
         .user-profile-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
             transition: var(--transition);
-            margin-right: 15px;
+            margin-right: 10px;
         }
 
         .user-profile-icon:hover {
@@ -181,13 +189,13 @@
         .user-name-dropdown {
             display: none;
             position: absolute;
-            top: 50px;
+            top: 45px;
             right: 0;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            min-width: 150px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            min-width: 140px;
             z-index: 1000;
         }
 
@@ -199,88 +207,83 @@
             color: var(--dark);
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .about-section {
-            padding: 120px 0 80px;
+            padding: 100px 0 60px;
             background: linear-gradient(to bottom, #ffffff, #f5f7ff);
         }
 
         .about-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .about-header h1 {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: var(--dark);
+            font-size: 36px;
+            margin-bottom: 12px;
         }
 
         .about-header p {
-            max-width: 750px;
+            max-width: 700px;
             margin: 0 auto;
-            font-size: 18px;
+            font-size: 16px;
             color: var(--text);
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
         .about-content {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             box-shadow: var(--card-shadow);
-            padding: 40px;
+            padding: 30px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 30px;
+            gap: 25px;
         }
 
         .about-description {
-            font-size: 16px;
-            line-height: 1.8;
-            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
         }
 
         .mission-vision {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 25px;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
             background: var(--light);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
 
         .mission-vision h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--dark);
+            font-size: 22px;
+            margin-bottom: 12px;
         }
 
         .mission-vision p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: var(--text);
+            font-size: 15px;
+            line-height: 1.7;
         }
 
         .team-section {
-            padding: 25px;
+            padding: 20px;
             background: var(--light);
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
 
         .team-section h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--dark);
+            font-size: 22px;
+            margin-bottom: 12px;
         }
 
         .team-members {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
         }
 
         .team-member {
@@ -288,39 +291,39 @@
         }
 
         .team-member-avatar {
-            width: 100px;
-            height: 100px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
-            margin: 0 auto 10px;
+            font-size: 15px;
+            margin: 0 auto 8px;
         }
 
         .team-member h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 4px;
         }
 
         .team-member p {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text);
         }
 
         .cta-section {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
         }
 
         .cta-section .btn {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 8px 15px;
+            font-size: 12px;
+            border-radius: 0px;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -337,18 +340,18 @@
         .modal-content {
             background: white;
             border-radius: 5px;
-            padding: 30px;
+            padding: 25px;
             width: 90%;
-            max-width: 500px;
+            max-width: 450px;
             position: relative;
             box-shadow: var(--card-shadow);
         }
 
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
+            top: 8px;
+            right: 12px;
+            font-size: 22px;
             cursor: pointer;
             color: var(--text);
         }
@@ -358,32 +361,31 @@
         }
 
         .modal-content h2 {
-            margin-bottom: 20px;
-            font-size: 28px;
+            margin-bottom: 15px;
+            font-size: 24px;
         }
 
         .modal-content form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            
+            gap: 12px;
         }
 
         .modal-content input {
-            padding: 12px;
+            padding: 10px;
             border: 1px solid var(--border);
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .modal-content button {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
         }
 
@@ -395,6 +397,7 @@
             color: var(--primary);
             text-decoration: none;
             text-align: center;
+            font-size: 14px;
         }
 
         .modal-content a:hover {
@@ -410,40 +413,249 @@
         .modal-content label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
+            gap: 8px;
+            font-size: 13px;
             color: var(--text);
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+                align-items: flex-start;
+                padding: 5px 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+            
+
             .nav-links {
                 display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: white;
+                padding: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             }
 
-            .about-header h1 {
-                font-size: 32px;
+            .nav-links.active {
+                display: flex;
             }
 
-            .about-content {
-                padding: 20px;
+            .nav-links li {
+                margin: 8px 0;
             }
 
-            .mission-vision {
+            .nav-links a {
+                font-size: 14px;
+                padding: 8px 0;
+                display: block;
+            }
+
+            .auth-buttons {
+                margin-top: 8px;
+                gap: 6px;
+            }
+
+            .auth-buttons .btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-height: 36px;
+            }
+
+            .user-profile-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .user-name-dropdown {
+                top: 40px;
+                min-width: 120px;
+            }
+
+            .hero-content {
+                padding-top: 50px;
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                min-width: 100%;
+            }
+
+            .hero-image {
+                min-width: 100%;
+            }
+
+            .hero-img {
+                max-width: 300px;
+            }
+
+            .payment-logos {
+                margin-top: 20px;
+                gap: 10px;
+            }
+
+            .payment-logos img {
+                height: 18px;
+                max-width: 70px;
+            }
+
+            .features-grid {
                 grid-template-columns: 1fr;
-                padding: 15px;
             }
 
-            .team-section {
-                padding: 15px;
+            .testimonials-grid {
+                grid-template-columns: 1fr;
             }
 
-            .team-members {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
 
             .modal-content {
-                padding: 20px;
-                width: 95%;
+                padding: 15px;
+                max-width: 90%;
+                border-radius: 2px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .modal-header p {
+                font-size: 12px;
+            }
+
+            .form-group input {
+                padding: 8px;
+                font-size: 12px;
+                min-height: 40px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 12px;
+                min-height: 40px;
+                border-radius: 5px;
+            }
+
+            .modal-footer p {
+                font-size: 12px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .filter-options {
+                justify-content: space-between;
+            }
+
+            .filter-select {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+                margin-left: 5px;
+                padding-top: 0px;
+                padding-left: 50px;
+            }
+
+            .hamburger {
+                font-size: 20px;
+                padding-bottom: 10px;
+                padding-right: 200px;
+            }
+
+            .nav-links {
+                top: 50px;
+                padding: 10px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: clamp(80px, 12vw, 100px) 0 clamp(40px, 8vw, 60px);
+            }
+
+            .hero-text h1 {
+                font-size: clamp(20px, 5vw, 24px);
+            }
+
+            .hero-text p {
+                font-size: clamp(12px, 2.5vw, 14px);
+            }
+
+            .hero-img {
+                max-width: 250px;
+            }
+
+            .courses-header h1 {
+                font-size: 22px;
+            }
+
+            .courses-header p {
+                font-size: 12px;
+            }
+
+            .modal-content {
+                padding: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 16px;
+            }
+
+            .close-btn {
+                font-size: 18px;
+            }
+
+            .form-group input {
+                font-size: 11px;
+                min-height: 36px;
+            }
+
+            .form-group label {
+                font-size: 11px;
+            }
+
+            .btn {
+                font-size: 11px;
+                padding: 6px 14px;
+                min-height: 36px;
             }
         }
     </style>
@@ -456,7 +668,10 @@
                     <i class="fas fa-graduation-cap"></i>
                     LearnSphere
                 </a>
-                <ul class="nav-links">
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="nav-links">
                     <li><a href="index.html" class="nav-link">Home</a></li>
                     <li><a href="course.html" class="nav-link">Courses</a></li>
                     <li><a href="#">Features</a></li>
@@ -488,8 +703,8 @@
             </div>
             <div class="about-content">
                 <div class="about-description">
-                    <p><strong >LearnSphere is a leading online learning platform dedicated to providing accessible, high-quality education to learners around the globe. Founded with a passion for knowledge-sharing, we partner with top instructors and institutions to offer a diverse range of courses in technology, business, design, and more.</p>
-                    <p>Our platform is designed to make learning engaging, flexible, and impactful. Whether you're looking to upskill, explore a new field, or pursue a passion, LearnSphere provides the tools and resources to help you succeed.</p></strong>
+                    <p><strong>LearnSphere is a leading online learning platform dedicated to providing accessible, high-quality education to learners around the globe. Founded with a passion for knowledge-sharing, we partner with top instructors and institutions to offer a diverse range of courses in technology, business, design, and more.</strong></p>
+                    <p><strong>Our platform is designed to make learning engaging, flexible, and impactful. Whether you're looking to upskill, explore a new field, or pursue a passion, LearnSphere provides the tools and resources to help you succeed.</strong></p>
                 </div>
                 <div class="mission-vision">
                     <div class="mission">
@@ -509,7 +724,7 @@
                             <h4>Sayooj Anil</h4>
                             <p>Founder</p>
                         </div>
-                      
+                    </div>
                 </div>
                 <div class="cta-section">
                     <a href="course.html" class="btn">Explore Our Courses</a>
@@ -580,6 +795,8 @@
         const logoutBtn = document.getElementById('logout-btn');
         const userProfileIcon = document.getElementById('user-profile-icon');
         const userNameDropdown = document.getElementById('user-name-dropdown');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
 
         // Axios instance
         const api = axios.create({
@@ -607,6 +824,22 @@
                 userNameDisplay.textContent = '';
             }
         }
+
+        // Hamburger menu toggle
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking a nav link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.querySelector('i').classList.remove('fa-times');
+                hamburger.querySelector('i').classList.add('fa-bars');
+            });
+        });
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', () => {

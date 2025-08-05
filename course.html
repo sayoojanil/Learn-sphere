@@ -833,7 +833,7 @@
                     <li><a href="course.html" class="nav-link">Courses</a></li>
                     <li><a href="#">Features</a></li>
                     <li><a href="#">Pricing</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="about-us.html">About</a></li>
                 </ul>
                 <div class="auth-buttons" id="auth-buttons">
                     <a href="#" class="btn btn-outline" id="login-btn">Login</a>
@@ -1066,6 +1066,7 @@
                 const response = await api.get(API_ENDPOINTS.courses);
                 console.log('Fetched Courses:', response.data);
                 return response.data;
+                console.log('Courses fetched successfully:', response.data);
             } catch (error) {
                 console.error('Error fetching courses:', error);
                 fetchError.style.display = 'block';
