@@ -238,13 +238,13 @@
         }
 
         .hero {
-            min-height: 100vh;
+            min-height: dvh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #b6d8ff 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
             position: relative;
-            padding: 60px 0;
+           padding: clamp(10px, 8vw, 160px) 0;
         }
 
         .hero-content {
@@ -258,7 +258,7 @@
         }
 
         .hero-text {
-            padding-bottom: 11px;
+            padding-top: 200px;
             flex: 1;
             padding-right: 20px;
             min-width: 250px;
@@ -293,6 +293,7 @@
             text-align: center;
             position: relative;
             min-width: 200px;
+            padding-top: 200px;
         }
 
         .hero-img {
@@ -327,8 +328,9 @@
         }
 
         .features {
-            padding: clamp(150px, 8vw, 60px) 0;
-            background: white;
+            padding: clamp(30px, 8vw, 60px) 0;
+            background: rgb(255, 255, 255);
+            min-height: 0dvh;
         }
 
         .section-header {
@@ -350,14 +352,14 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
 
         .feature-card {
             background: rgb(252, 252, 252);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
@@ -369,31 +371,141 @@
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: rgba(67, 97, 238, 0.1);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
             color: var(--primary);
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .feature-card h3 {
-            font-size: clamp(16px, 3vw, 18px);
-            margin-bottom: 8px;
+            font-size: clamp(14px, 2.5vw, 16px);
+            margin-bottom: 6px;
         }
 
         .feature-card p {
-            font-size: 15px;
+            font-size: clamp(12px, 2vw, 13px);
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
+        .featured-courses {
+            padding: clamp(10px, 4vw, 40px) 0;
+            min-height: auto;
+        }
+
+        .featured-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 0 15px;
+            justify-content: center;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-image {
+            height: 140px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgb(148, 63, 63);
+            font-size: 40px;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .course-content {
+            padding: 15px;
+        }
+
+        .course-category {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: clamp(12px, 2vw, 13px);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .course-title {
+            font-size: clamp(16px, 3vw, 18px);
+            margin-bottom: 6px;
+        }
+
+        .course-description {
+            color: var(--text);
+            margin-bottom: 12px;
+            min-height: 50px;
+            font-size: clamp(12px, 2.5vw, 14px);
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+        }
+
+        .instructor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            color: #ffc107;
+            font-size: clamp(12px, 2vw, 13px);
+        }
+
+        .course-rating span {
+            color: var(--text);
+            margin-left: 4px;
+            font-weight: 600;
+        }
+
         .testimonials {
-            padding: clamp( px, 8vw, 60px) 0;
-            background: linear-gradient(135deg, #e6ecff 0%, #f5f7ff 100%);
+            padding: clamp(10px, 8vw, 60px) 0;
+            background: linear-gradient(135deg, #ffffff 0%, #fefeff 100%);
             position: relative;
         }
 
@@ -405,7 +517,7 @@
 
         .testimonial-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 5px;
             padding: 20px;
             box-shadow: var(--card-shadow);
             position: relative;
@@ -797,103 +909,6 @@
             gap: 20px;
         }
 
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .course-image {
-            height: 140px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 40px;
-        }
-
-        .course-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .course-content {
-            padding: 15px;
-        }
-
-        .course-category {
-            display: inline-block;
-            background: rgba(67, 97, 238, 0.1);
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: clamp(12px, 2vw, 13px);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .course-title {
-            font-size: clamp(16px, 3vw, 18px);
-            margin-bottom: 6px;
-        }
-
-        .course-description {
-            color: var(--text);
-            margin-bottom: 12px;
-            min-height: 50px;
-            font-size: clamp(12px, 2.5vw, 14px);
-        }
-
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .course-instructor {
-            display: flex;
-            align-items: center;
-        }
-
-        .instructor-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-            margin-right: 6px;
-        }
-
-        .course-rating {
-            display: flex;
-            align-items: center;
-            color: #ffc107;
-            font-size: clamp(12px, 2vw, 13px);
-        }
-
-        .course-rating span {
-            color: var(--text);
-            margin-left: 4px;
-            font-weight: 600;
-        }
-
         .page {
             display: none;
         }
@@ -903,7 +918,7 @@
         }
 
         .error-message {
-            color: #dc3545;
+            color: #f30018;
             font-size: clamp(12px, 2vw, 13px);
             margin-top: 6px;
             text-align: center;
@@ -955,8 +970,8 @@
 
             .auth-buttons .btn {
                 padding: 6px 10px;
-                font-size: 12px;
-                min-height: 36px;
+                font-size: 10px;
+                min-height: 31px;
             }
 
             .user-profile-icon {
@@ -1004,8 +1019,33 @@
                 grid-template-columns: 1fr;
             }
 
+            .feature-card {
+                padding: 12px;
+            }
+
+            .feature-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .feature-card h3 {
+                font-size: clamp(12px, 2.5vw, 14px);
+            }
+
+            .feature-card p {
+                font-size: clamp(11px, 2vw, 12px);
+            }
+
+            .featured-courses-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 0 10px;
+            }
+
             .testimonials-grid {
                 grid-template-columns: 1fr;
+                border-radius: 5px;
             }
 
             .stats-grid {
@@ -1146,6 +1186,31 @@
                 padding: 6px 14px;
                 min-height: 36px;
             }
+
+            .featured-courses-grid {
+                gap: 10px;
+                padding: 0 5px;
+            }
+
+            .course-card {
+                padding: 10px;
+            }
+
+            .course-image {
+                height: 120px;
+            }
+
+            .course-content {
+                padding: 10px;
+            }
+
+            .course-title {
+                font-size: clamp(14px, 3vw, 16px);
+            }
+
+            .course-description {
+                font-size: clamp(11px, 2.5vw, 12px);
+            }
         }
     </style>
 </head>
@@ -1168,7 +1233,7 @@
                     <li><a href="about-us.html">About</a></li>
                 </ul>
                 <div class="auth-buttons" id="auth-buttons">
-                    <a href="#" class="btn btn-outline" id="login-btn">Login</a>
+                    <a href="course.html" class="btn btn-outline" id="login-btn">Login</a>
                     <a href="#" class="btn" id="signup-btn">Sign Up</a>
                     <div class="user-profile" id="user-profile" style="display: none;">
                         <div class="user-profile-icon" id="user-profile-icon">
@@ -1209,53 +1274,135 @@
         </section>
 
         <section class="features">
-            <div class="container">
+            <div class="featured-courses">
                 <div class="section-header">
-                    <h2>Powerful Learning Tools</h2>
-                    <p>Our platform provides everything you need to master new skills and advance your career.</p>
+                    <h2>Featured Courses</h2>
+                    <p>Explore our top-rated courses to kickstart your learning journey.</p>
                 </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-video"></i>
+                <div class="featured-courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQogVx1VZLadoiPjvCR_oZ6cyYPPj8sxHDX7A&s" alt="" class="src">
                         </div>
-                        <h3>Interactive Courses</h3>
-                        <p>Engaging video lessons with practical exercises and real-world projects.</p>
+                        <div class="course-content">
+                            <span class="course-category">Web Development</span>
+                            <h3 class="course-title">JavaScript Fundamentals</h3>
+                            <p class="course-description">Master the essentials of JavaScript to build interactive web applications.</p>
+                            <div class="course-meta">
+                                <div class="course-instructor">
+                                    <div class="instructor-avatar">JD</div>
+                                    <span>John Doe</span>
+                                </div>
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.5</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chalkboard-teacher"></i>
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://thumbs.dreamstime.com/b/data-science-deep-learning-artificial-intelligence-analysis-internet-modern-technology-concept-data-science-deep-388960786.jpg" alt="" class="src">
                         </div>
-                        <h3>Expert Instructors</h3>
-                        <p>Learn from industry professionals with years of experience.</p>
+                        <div class="course-content">
+                            <span class="course-category">Data Science</span>
+                            <h3 class="course-title">Python for Data Science</h3>
+                            <p class="course-description">Learn Python programming for data analysis and visualization.</p>
+                            <div class="course-meta">
+                                <div class="course-instructor">
+                                    <div class="instructor-avatar">JS</div>
+                                    <span>Jane Smith</span>
+                                </div>
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.0</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-certificate"></i>
+
+                     <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://thumbs.dreamstime.com/b/data-science-deep-learning-artificial-intelligence-analysis-internet-modern-technology-concept-data-science-deep-388960786.jpg" alt="" class="src">
                         </div>
-                        <h3>Certification</h3>
-                        <p>Earn recognized certificates to showcase your new skills.</p>
+                        <div class="course-content">
+                            <span class="course-category">Data Science</span>
+                            <h3 class="course-title">Python for Data Science</h3>
+                            <p class="course-description">Learn Python programming for data analysis and visualization.</p>
+                            <div class="course-meta">
+                                <div class="course-instructor">
+                                    <div class="instructor-avatar">JS</div>
+                                    <span>Jane Smith</span>
+                                </div>
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.0</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
+
+                     <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://thumbs.dreamstime.com/b/data-science-deep-learning-artificial-intelligence-analysis-internet-modern-technology-concept-data-science-deep-388960786.jpg" alt="" class="src">
                         </div>
-                        <h3>Mobile Learning</h3>
-                        <p>Access courses anytime, anywhere with our mobile app.</p>
+                        <div class="course-content">
+                            <span class="course-category">Data Science</span>
+                            <h3 class="course-title">Python for Data Science</h3>
+                            <p class="course-description">Learn Python programming for data analysis and visualization.</p>
+                            <div class="course-meta">
+                                <div class="course-instructor">
+                                    <div class="instructor-avatar">JS</div>
+                                    <span>Jane Smith</span>
+                                </div>
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.0</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-comments"></i>
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="https://img.freepik.com/free-vector/gradient-ui-ux-background_23-2149052117.jpg" alt="" class="src">
                         </div>
-                        <h3>Community Support</h3>
-                        <p>Connect with peers and mentors in our learning community.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-briefcase"></i>
+                        <div class="course-content">
+                            <span class="course-category">Design</span>
+                            <h3 class="course-title">UI/UX Design Principles</h3>
+                            <p class="course-description">Create user-friendly interfaces with modern design techniques.</p>
+                            <div class="course-meta">
+                                <div class="course-instructor">
+                                    <div class="instructor-avatar">EB</div>
+                                    <span>Emma Brown</span>
+                                </div>
+                                <div class="course-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>5.0</span>
+                                </div>
+                            </div>
                         </div>
-                        <h3>Career Services</h3>
-                        <p>Get career guidance and job placement assistance.</p>
                     </div>
                 </div>
             </div>
@@ -1312,45 +1459,7 @@
             <div class="container">
                 <h2>Start Your Learning Journey Today</h2>
                 <p>Join thousands of learners who are transforming their careers with our platform. No credit card required to get started.</p>
-                <a href="#" class="btn" id="cta-signup-btn">Show Courses</a>
-            </div>
-        </section>
-    </div>
-
-    <div id="courses-page" class="page">
-        <section class="courses-section">
-            <div class="container">
-                <div class="courses-header">
-                    <h1>Explore Our Courses</h1>
-                    <p>Discover a wide range of courses taught by industry experts to help you achieve your learning goals.</p>
-                </div>
-                <div class="filter-bar">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="search-input" placeholder="Search courses...">
-                    </div>
-                    <div class="filter-options">
-                        <select class="filter-select" id="category-filter">
-                            <option value="all">All Categories</option>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Data Science">Data Science</option>
-                            <option value="Business">Business</option>
-                            <option value="Design">Design</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Mobile Development">Mobile Development</option>
-                            <option value="Cloud Computing">Cloud Computing</option>
-                        </select>
-                        <select class="filter-select" id="difficulty-filter">
-                            <option value="all">Difficulty: All</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Advanced">Advanced</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="courses-grid" id="courses-grid">
-                    <!-- Courses will be dynamically rendered here -->
-                </div>
+                <a href="course.html" class="btn" id="browse-courses-btn">Show Courses</a>
             </div>
         </section>
     </div>
@@ -1423,9 +1532,7 @@
                     <h3>LearnSphere</h3>
                     <p>Empowering learners worldwide with accessible, high-quality education.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://github.com/sayoojanil"><i class="fab fa-github"></i></a>
                         <a href="https://www.linkedin.com/in/sayoojanilvp/"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
@@ -1435,28 +1542,11 @@
                         <li><a href="#" class="nav-link" data-page="home">Home</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="course.html" class="nav-link">Courses</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Categories</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Data Science</a></li>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Design</a></li>
-                        <li><a href="#">Marketing</a></li>
-                    </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
                 </div>
             </div>
             <div class="copyright">
@@ -1513,7 +1603,32 @@
         });
 
         // Course data with difficulty levels
-        const courses = [];
+        const courses = [
+            {
+                title: 'JavaScript Fundamentals',
+                description: 'Master the essentials of JavaScript to build interactive web applications.',
+                category: 'Web Development',
+                difficulty: 'Beginner',
+                instructor: 'John Doe',
+                rating: 4.5
+            },
+            {
+                title: 'Python for Data Science',
+                description: 'Learn Python programming for data analysis and visualization.',
+                category: 'Data Science',
+                difficulty: 'Intermediate',
+                instructor: 'Jane Smith',
+                rating: 4.0
+            },
+            {
+                title: 'UI/UX Design Principles',
+                description: 'Create user-friendly interfaces with modern design techniques.',
+                category: 'Design',
+                difficulty: 'Beginner',
+                instructor: 'Emma Brown',
+                rating: 5.0
+            }
+        ];
 
         // Function to update auth UI
         function updateAuthUI() {
@@ -1531,6 +1646,36 @@
                 userProfile.style.display = 'none';
                 userNameDisplay.textContent = '';
             }
+        }
+
+        // Function to get course icon
+        function getCourseIcon(category) {
+            const icons = {
+                'Web Development': 'js',
+                'Data Science': 'database',
+                'Design': 'paint-brush',
+                'Mobile Development': 'mobile-alt',
+                'Business': 'chart-line',
+                'Cloud Computing': 'cloud'
+            };
+            return icons[category] || 'book';
+        }
+
+        // Function to generate star rating
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            for (let i = 0; i < 5; i++) {
+                if (i < fullStars) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
         }
 
         // Function to render courses
@@ -1565,41 +1710,20 @@
             });
         }
 
-        // Function to get course icon
-        function getCourseIcon(category) {
-            const icons = {
-                'Web Development': 'js',
-                'Data Science': 'database',
-                'Design': 'paint-brush',
-                'Mobile Development': 'mobile-alt',
-                'Business': 'chart-line',
-                'Cloud Computing': 'cloud'
-            };
-            return icons[category] || 'book';
-        }
-
-        // Function to generate star rating
-        function generateStars(rating) {
-            let stars = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            for (let i = 0; i < 5; i++) {
-                if (i < fullStars) {
-                    stars += '<i class="fas fa-star"></i>';
-                } else if (i === fullStars && hasHalfStar) {
-                    stars += '<i class="fas fa-star-half-alt"></i>';
-                } else {
-                    stars += '<i class="far fa-star"></i>';
-                }
-            }
-            return stars;
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.featured-courses-grid .course-card').forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function () {
+                    window.location.href = 'course.html';
+                });
+            });
+        });
 
         // Search and filter function
         function filterCourses() {
-            const searchText = searchInput.value.toLowerCase();
-            const selectedCategory = categoryFilter.value;
-            const selectedDifficulty = difficultyFilter.value;
+            const searchText = searchInput?.value.toLowerCase() || '';
+            const selectedCategory = categoryFilter?.value || 'all';
+            const selectedDifficulty = difficultyFilter?.value || 'all';
 
             const filteredCourses = courses.filter(course => {
                 const matchesSearch = course.title.toLowerCase().includes(searchText) ||
@@ -1614,12 +1738,9 @@
         }
 
         // Event listeners for search and filters
-        searchInput.addEventListener('input', filterCourses);
-        categoryFilter.addEventListener('change', filterCourses);
-        difficultyFilter.addEventListener('change', filterCourses);
-
-        // Initial render of courses
-        renderCourses(courses);
+        if (searchInput) searchInput.addEventListener('input', filterCourses);
+        if (categoryFilter) categoryFilter.addEventListener('change', filterCourses);
+        if (difficultyFilter) difficultyFilter.addEventListener('change', filterCourses);
 
         // Hamburger menu toggle
         hamburger.addEventListener('click', () => {
@@ -1671,12 +1792,6 @@
             window.location.href = 'course.html';
         });
 
-        ctaSignupBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.style.display = 'flex';
-            signupError.style.display = 'none';
-        });
-
         closeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 signupModal.style.display = 'none';
@@ -1705,7 +1820,7 @@
         homeLink.addEventListener('click', (e) => {
             e.preventDefault();
             showPage('home');
-            navLinksContainer.classList.remove('active');
+            navLinksContainer.classList.remove('active');       
             hamburger.classList.remove('active');
         });
 
@@ -1798,6 +1913,14 @@
             } catch (error) {
                 loginError.textContent = error.response?.data?.message || 'Invalid email or password';
                 loginError.style.display = 'block';
+
+                if (error.response?.status === 401) {
+                    loginError.textContent = 'Invalid email or password';
+                    loginError.style.display = 'block';
+                } else {
+                    loginError.textContent = 'Server error, please try again later';
+                    loginError.style.display = 'block';
+                }
             }
         });
 
