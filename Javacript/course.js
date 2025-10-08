@@ -1,4 +1,4 @@
-   // API Configuration
+ // API Configuration
         const API_BASE_URL = 'https://api-hammadii-6.onrender.com/';
         const API_ENDPOINTS = {
             signup: '/signup',
@@ -37,11 +37,18 @@
         const navLinks = document.getElementById('nav-links');
         const fetchError = document.getElementById('fetch-error');
         const noCoursesError = document.getElementById('no-courses-error');
+        const pagination = document.getElementById('pagination');
 
-        // Axios instance
+        // Pagination Configuration
+        const COURSES_PER_PAGE = 4;
+        let currentPage = 1;
+        let totalCourses = 0;
+        let filteredCourses = [];
+
+        // Axios instance           
         const api = axios.create({
             baseURL: API_BASE_URL,
-            timeout: 5000,
+            timeout: 1000,
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -92,15 +99,24 @@
             }
         }
 
-        // Function to render courses
-        function renderCourses(courses) {
+        // Function to render courses for the current page
+        function renderCourses(courses, page = 1) {
             coursesGrid.innerHTML = '';
             fetchError.style.display = 'none';
-            noCoursesError.style.display = courses.length === 0 ? 'block' : 'none';
-            if (courses.length === 0) {
+            totalCourses = courses.length;
+            filteredCourses = courses;
+
+            if (totalCourses === 0) {
+                noCoursesError.style.display = 'block';
+                pagination.innerHTML = '';
                 return;
             }
-            courses.forEach((course) => {
+
+            const startIndex = (page - 1) * COURSES_PER_PAGE;
+            const endIndex = startIndex + COURSES_PER_PAGE;
+            const paginatedCourses = courses.slice(startIndex, endIndex);
+
+            paginatedCourses.forEach((course) => {
                 const courseCard = document.createElement('div');
                 courseCard.className = 'course-card';
                 courseCard.setAttribute('data-category', course.category);
@@ -131,6 +147,63 @@
                 });
                 coursesGrid.appendChild(courseCard);
             });
+
+            renderPagination();
+        }
+
+        // Function to render pagination controls
+        function renderPagination() {
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(totalCourses / COURSES_PER_PAGE);
+
+            // Previous Button
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.textContent = 'Previous';
+            prevBtn.disabled = currentPage === 1;
+            if (prevBtn.disabled) prevBtn.classList.add('disabled');
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCourses(filteredCourses, currentPage);
+                }
+            });
+            pagination.appendChild(prevBtn);
+
+            // Page Numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'pagination-btn';
+                pageBtn.textContent = i;
+                if (i === currentPage) pageBtn.classList.add('active');
+                pageBtn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderCourses(filteredCourses, currentPage);
+                });
+                pagination.appendChild(pageBtn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.textContent = 'Next';
+            nextBtn.disabled = currentPage === totalPages;
+            if (nextBtn.disabled) nextBtn.classList.add('disabled');
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCourses(filteredCourses, currentPage);
+                }
+            });
+            pagination.appendChild(nextBtn);
         }
 
         // Function to get course icon
@@ -198,12 +271,14 @@
                 fetchError.style.display = 'none';
                 noCoursesError.style.display = 'none';
                 const response = await api.get(API_ENDPOINTS.courses, { params: { filter: JSON.stringify(filter) } });
-                renderCourses(response.data);
+                currentPage = 1; // Reset to first page on new filter
+                renderCourses(response.data, currentPage);
             } catch (error) {
                 console.error('Error filtering courses:', error);
                 fetchError.style.display = 'block';
                 noCoursesError.style.display = 'none';
                 coursesGrid.innerHTML = '';
+                pagination.innerHTML = '';
             } finally {
                 coursesLoading.classList.remove('active');
                 coursesGrid.style.display = 'grid';
@@ -231,7 +306,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             updateAuthUI();
             const courses = await fetchCourses();
-            renderCourses(courses);
+            renderCourses(courses, currentPage);
         });
 
         // Event listeners
